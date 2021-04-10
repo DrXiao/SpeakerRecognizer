@@ -33,6 +33,8 @@ References
 import pyaudio
 import wave
 
+def recording():
+    pass
 
 def main():
     """ 
