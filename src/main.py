@@ -270,42 +270,6 @@ def testing(hmm_models, kmeans_centers):
           (100.0 * score_cnt/corpus_num))
     #with open("prob.txt", "a") as file:
         #file.writelines("Final recognition rate is %.2f%%\n" %
-        #                (100.0 * score_cnt/corpus_num))0
-    for test_label in test_dataset:
-        feature = test_dataset[test_label]
-        corpus_num += len(feature)
-        for corpus_idx in range(len(feature)):
-            test_data_label = []
-            for j in range(len(feature[corpus_idx])):
-                dic_min = np.linalg.norm(
-                    feature[corpus_idx][j] - kmeans_centers[0])
-                predict_label = 0
-                for centers_idx in range(len(kmeans_centers)):
-                    if np.linalg.norm(feature[corpus_idx][j] - kmeans_centers[centers_idx]) < dic_min:
-                        dic_min = np.linalg.norm(
-                            feature[corpus_idx][j] - kmeans_centers[centers_idx])
-                        predict_label = centers_idx
-                test_data_label.append(predict_label)
-            test_data_label = np.array([test_data_label])
-            # print(test_data_label)
-            score_list = {}
-            for model_label in hmm_models:
-                model = hmm_models[model_label]
-
-                score = model.score(test_data_label)
-                score_list[model_label] = math.exp(score)
-            predict_label = max(score_list, key=score_list.get)
-            # print(score_list)
-            # print("Test on true label ", test_label, ": predict result label is ", predict_label)
-            if test_label == predict_label:
-                score_cnt += 1
-            true.append(test_label)
-            pred.append(predict_label)
-    print("true:", true, "pred:", pred, sep='\n')
-    print("Final recognition rate is %.2f%%" %
-          (100.0 * score_cnt/corpus_num))
-    #with open("prob.txt", "a") as file:
-        #file.writelines("Final recognition rate is %.2f%%\n" %
         #                (100.0 * score_cnt/corpus_num))
 
 ### main function ###
